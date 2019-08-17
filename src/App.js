@@ -25,7 +25,7 @@ export default class App extends React.Component {
             this.handleInteraction(this.refs.table.state, {});
           })
           .catch(error => {
-            alert(error)
+            //alert(error)
           });
         }
       )
@@ -69,28 +69,36 @@ export default class App extends React.Component {
         <ReactTable
           columns={[
             {
-              Header: "1",
-              accessor: "1"
+              Header: "Name",
+              width: 200,
+              style: {'padding-left': '10px'},
+              accessor: data => ({name: data.name, url: data.svn_url}),
+              id: 'name',
+              Cell: row => (
+                <span><a href={row.value.url}>{row.value.name}</a></span>
+              )
             },
             {
-              Header: "2",
-              id: "2",
+              Header: "Description",
+              accessor: "description"
             },
             {
-              Header: "3",
-              accessor: "3"
+              Header: "Stars",
+              accessor: "stargazers_count",
+              width: 100
             },
             {
-              Header: "4",
-              accessor: "4"
+              Header: "Last Update",
+              accessor: "updated_at"
             }
           ]}
+          ref={'table'}
           manual // Forces table not to paginate or sort automatically, so we can handle it server-side
           data={currentPage}
           pages={pages} // Display the total number of pages
           loading={loading} // Display the loading overlay when we need it
           onFetchData={this.handleInteraction} // Request new data when things change
-          defaultPageSize={10}
+          defaultPageSize={20}
           className="-striped -highlight"
         />
         <br />
