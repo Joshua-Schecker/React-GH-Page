@@ -76,10 +76,11 @@ export default class App extends React.Component {
   render() {
     const { currentPage, pages, loading } = this.state;
     return (
-      <div>
+      <div style={{height: '100%'}}>
         <ReactTable
           columns={columns}
           ref={'table'}
+          height={300}
           manual // !important! Forces table not to paginate or sort automatically
           data={currentPage}
           pages={pages} // Display the total number of pages
