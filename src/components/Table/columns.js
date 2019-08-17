@@ -12,7 +12,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 export const columns = [
   {
     Header: "Name",
-    width: 200,
+    width: 175,
     style: {'paddingleft': '10px'},
     // using object to pass multiple values to cell
     accessor: data => ({name: data.name, url: data.svn_url}),

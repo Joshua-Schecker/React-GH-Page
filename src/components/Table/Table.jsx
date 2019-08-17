@@ -3,6 +3,7 @@ import React from "react";
 import ReactTable from "react-table";
 import "react-table/react-table.css";
 import {columns} from './columns';
+import './table.css';
 
 export default class App extends React.Component {
   constructor() {
