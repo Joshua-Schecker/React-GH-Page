@@ -1,5 +1,5 @@
 .container{
-  padding: 2vh 10vw 0 10vw;
+  padding: 1vh 10vw 0 10vw;
   text-align: center;
-  max-height: 400px;
+  height: 80vh;
 }
