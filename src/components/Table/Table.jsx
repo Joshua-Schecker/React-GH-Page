@@ -1,15 +1,9 @@
 import React from "react";
-import _ from "lodash";
 // Import React Table
 import ReactTable from "react-table";
 import "react-table/react-table.css";
+import {columns} from './columns';
 
-import moment from 'moment';
-
-import { faStar } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-// fetch goes here
-// https://api.github.com/search/repositories?q=language:javascript&sort=stars&order=desc&per_page=100
 export default class App extends React.Component {
   constructor() {
     super();
@@ -29,7 +23,7 @@ export default class App extends React.Component {
             this.handleInteraction(this.refs.table.state, {});
           })
           .catch(error => {
-            //alert(error)
+            alert(error, 'please refresh the page to try again')
           });
         }
       )
@@ -67,42 +61,13 @@ export default class App extends React.Component {
     });
   }
 
-  formatNumber(num) {
-  return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
-}
+
   render() {
     const { currentPage, pages, loading } = this.state;
     return (
       <div>
         <ReactTable
-          columns={[
-            {
-              Header: "Name",
-              width: 200,
-              style: {'padding-left': '10px'},
-              accessor: data => ({name: data.name, url: data.svn_url}),
-              id: 'name',
-              Cell: row => (
-                <span><a href={row.value.url}>{row.value.name}</a></span>
-              )
-            },
-            {
-              Header: "Description",
-              accessor: "description"
-            },
-            {
-              Header: "Stars",
-              accessor: "stargazers_count",
-              width: 100,
-              Cell: row =>(<span><FontAwesomeIcon icon={faStar}/> {this.formatNumber(row.value)}</span>)
-            },
-            {
-              Header: "Last Updated",
-              accessor: "updated_at",
-              width: 150,
-              Cell: row => (moment(row.value).fromNow(false))
-            }
-          ]}
+          columns={columns}
           ref={'table'}
           manual // Forces table not to paginate or sort automatically, so we can handle it server-side
           data={currentPage}
