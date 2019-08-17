@@ -16,6 +16,24 @@ export default class App extends React.Component {
     };
     this.handleInteraction = this.handleInteraction.bind(this);
   }
+  componentDidMount(){
+    fetch('https://api.github.com/search/repositories?q=language:javascript&sort=stars&order=desc&per_page=100', {mode: 'cors'})
+      .then( response => {
+          response.json().then( data => {
+            console.log(data.items);
+
+          })
+          .catch(error => {
+            alert(error)
+          });
+        }
+      )
+      .catch(function(error) {
+        console.log('Fetch Error :-S', error);
+      })
+      .finally( () =>{
+        this.setState({loading: false})
+      });
 
   }
   updatePages(data, pageSize, page) {
