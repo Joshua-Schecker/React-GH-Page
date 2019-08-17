@@ -1,29 +1,48 @@
 import React from "react";
-import { render } from "react-dom";
 import _ from "lodash";
 // Import React Table
 import ReactTable from "react-table";
 import "react-table/react-table.css";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+// fetch goes here
+// https://api.github.com/search/repositories?q=language:javascript&sort=stars&order=desc&per_page=100
+export default class App extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      data: [],
+      pages: null,
+      loading: true
+    };
 
-export default App;
+  }
+
+  render() {
+    const { data, pages, loading } = this.state;
+    return (
+      <div>
+        <ReactTable
+          columns={[
+            {
+              Header: "1",
+              accessor: "1"
+            },
+            {
+              Header: "2",
+              id: "2",
+            },
+            {
+              Header: "3",
+              accessor: "3"
+            },
+            {
+              Header: "4",
+              accessor: "4"
+            }
+          ]}
+          manual // Forces table not to paginate or sort automatically, so we can handle it server-side
+          data={data}
+          pages={pages} // Display the total number of pages
+          loading={loading} // Display the loading overlay when we need it
+  }
+}
