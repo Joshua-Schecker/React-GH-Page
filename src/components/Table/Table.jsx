@@ -15,28 +15,39 @@ export default class App extends React.Component {
     };
     this.handleInteraction = this.handleInteraction.bind(this);
   }
+  /**
+   * Fetch from API on component load
+   */
   componentDidMount(){
+    const errorText = 'Loading failed.\nPlease refresh the page to try again';
     fetch('https://api.github.com/search/repositories?q=language:javascript&sort=stars&order=desc&per_page=100', {mode: 'cors'})
       .then( response => {
           response.json().then( data => {
+            // store entire response in state
             this.setState({data: data.items});
+            // initialize table with api response
             this.handleInteraction(this.refs.table.state, {});
           })
-          .catch(error => {
-            alert(error, 'please refresh the page to try again')
+          .catch( error => {
+            alert(errorText)
           });
         }
       )
-      .catch(function(error) {
-        console.log('Fetch Error :-S', error);
+      .catch( error => {
+        alert(errorText)
       })
       .finally( () =>{
         this.setState({loading: false})
       });
-
   }
+  /**
+   * called from eventhandler when user interacts with table.
+   * Creates an array, page, and calculates total number of pages.
+   * @param  {[type]} pageSize size of page selected in table
+   * @param  {[type]} page     current page number in table
+   * @return {page, pages}     object used to set currentPage, pages in parent
+   */
   updatePages(pageSize, page) {
-      // You must return an object containing the rows of the current page, and optionally the total pages number.
       const newData = {
         page: this.state.data.slice(pageSize * page, pageSize * page + pageSize),
         pages: Math.ceil(this.state.data.length / pageSize)
@@ -44,23 +55,22 @@ export default class App extends React.Component {
       console.log(newData);
       return(newData);
   };
-
+  /**
+   * Event handler called when pages are need to be updated in table
+   * updates state with new page configurations
+   * @param  {[type]} state    state of child ReactTable component
+   * @param  {[type]} instance unused
+   */
   handleInteraction(state, instance) {
-    console.log(state.pageSize, state.page);
-    // Whenever the table model changes, or the user sorts or changes pages, this method gets called and passed the current table model.
-    // You can set the `loading` prop of the table to true to use the built-in one or show you're own loading bar if you want.
-    // Request the data however you want.  Here, we'll use our mocked service we created earlier
     const newData=this.updatePages(
       state.pageSize,
       state.page
     )
-      // Now just get the rows of data to your React Table (and update anything else like total pages or loading)
       this.setState({
         currentPage: newData.page,
         pages: newData.pages
     });
   }
-
 
   render() {
     const { currentPage, pages, loading } = this.state;
@@ -69,10 +79,10 @@ export default class App extends React.Component {
         <ReactTable
           columns={columns}
           ref={'table'}
-          manual // Forces table not to paginate or sort automatically, so we can handle it server-side
+          manual // !important! Forces table not to paginate or sort automatically
           data={currentPage}
           pages={pages} // Display the total number of pages
-          loading={loading} // Display the loading overlay when we need it
+          loading={loading}
           onFetchData={this.handleInteraction} // Request new data when things change
           defaultPageSize={20}
           className="-striped -highlight"

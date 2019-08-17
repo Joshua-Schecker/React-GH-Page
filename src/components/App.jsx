@@ -3,7 +3,7 @@ import Table from './Table/Table'
 
 export default class App extends React.Component {
   render() {
-    return (<div>
+    return (<div className='container'>
       <Table />
     </div>);
   }

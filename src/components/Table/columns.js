@@ -3,12 +3,18 @@ import { formatNumber } from '../../utils/utils';
 import moment from 'moment';
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
+/**
+ * Configuration for columns.
+ * Accessor with arrow function allows for passing modified values to cell renderer
+ * Cell with arrow function allows adding jsx to cell renderer
+ * @type {Array}
+ */
 export const columns = [
   {
     Header: "Name",
     width: 200,
     style: {'paddingleft': '10px'},
+    // using object to pass multiple values to cell
     accessor: data => ({name: data.name, url: data.svn_url}),
     id: 'name',
     Cell: row => (<span><a href={row.value.url}>{row.value.name}</a></span>)
