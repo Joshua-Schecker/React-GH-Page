@@ -4,6 +4,10 @@ import _ from "lodash";
 import ReactTable from "react-table";
 import "react-table/react-table.css";
 
+import moment from 'moment';
+
+import { faStar } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 // fetch goes here
 // https://api.github.com/search/repositories?q=language:javascript&sort=stars&order=desc&per_page=100
 export default class App extends React.Component {
