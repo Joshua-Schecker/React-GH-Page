@@ -66,6 +66,10 @@ export default class App extends React.Component {
         pages: newData.pages
     });
   }
+
+  formatNumber(num) {
+  return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
+}
   render() {
     const { currentPage, pages, loading } = this.state;
     return (
@@ -89,11 +93,14 @@ export default class App extends React.Component {
             {
               Header: "Stars",
               accessor: "stargazers_count",
-              width: 100
+              width: 100,
+              Cell: row =>(<span><FontAwesomeIcon icon={faStar}/> {this.formatNumber(row.value)}</span>)
             },
             {
-              Header: "Last Update",
-              accessor: "updated_at"
+              Header: "Last Updated",
+              accessor: "updated_at",
+              width: 150,
+              Cell: row => (moment(row.value).fromNow(false))
             }
           ]}
           ref={'table'}
