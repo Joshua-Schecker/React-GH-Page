@@ -14,9 +14,34 @@ export default class App extends React.Component {
       pages: null,
       loading: true
     };
-
+    this.handleInteraction = this.handleInteraction.bind(this);
   }
 
+  }
+  updatePages(data, pageSize, page) {
+      // You must return an object containing the rows of the current page, and optionally the total pages number.
+      const newData = {
+        rows: data.slice(pageSize * page, pageSize * page + pageSize),
+        pages: Math.ceil(data.length / pageSize)
+      };
+      return(newData);
+  };
+
+  handleInteraction(state, instance) {
+    // Whenever the table model changes, or the user sorts or changes pages, this method gets called and passed the current table model.
+    // You can set the `loading` prop of the table to true to use the built-in one or show you're own loading bar if you want.
+    // Request the data however you want.  Here, we'll use our mocked service we created earlier
+    const newData=this.updatePages(
+      state.data,
+      state.pageSize,
+      state.page
+    )
+      // Now just get the rows of data to your React Table (and update anything else like total pages or loading)
+      this.setState({
+        data: newData.rows,
+        pages: newData.pages
+    });
+  }
   render() {
     const { data, pages, loading } = this.state;
     return (
@@ -44,5 +69,12 @@ export default class App extends React.Component {
           data={data}
           pages={pages} // Display the total number of pages
           loading={loading} // Display the loading overlay when we need it
+          onFetchData={this.handleInteraction} // Request new data when things change
+          defaultPageSize={10}
+          className="-striped -highlight"
+        />
+        <br />
+      </div>
+    );
   }
 }
