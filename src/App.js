@@ -1,6 +1,9 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { render } from "react-dom";
+import _ from "lodash";
+// Import React Table
+import ReactTable from "react-table";
+import "react-table/react-table.css";
 
 function App() {
   return (
