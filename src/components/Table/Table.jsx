@@ -48,9 +48,9 @@ export default class App extends React.Component {
   /**
    * called from eventhandler when user interacts with table.
    * Creates an array, page, and calculates total number of pages.
-   * @param  {[type]} pageSize size of page selected in table
-   * @param  {[type]} page     current page number in table
-   * @return {page, pages}     object used to set currentPage, pages in parent
+   * @param  {number} pageSize size of page selected in table
+   * @param  {number} page     current page number in table
+   * @return {{page: [], pages: number}}     object used to set currentPage, pages in parent
    */
   updatePages(pageSize, page) {
     const newData = {
@@ -63,8 +63,8 @@ export default class App extends React.Component {
   /**
    * Event handler called when pages are need to be updated in table
    * updates state with new page configurations
-   * @param  {[type]} state    state of child ReactTable component
-   * @param  {[type]} instance unused
+   * @param  {Object} state    state of child ReactTable component
+   * @param  {Object} instance unused
    */
   handleInteraction(state, instance) {
     const newData = this.updatePages(state.pageSize, state.page);
