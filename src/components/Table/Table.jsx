@@ -81,7 +81,6 @@ export default class App extends React.Component {
         <ReactTable
           columns={columns}
           ref={"table"}
-          height={300}
           manual // !important! Forces table not to paginate or sort automatically
           data={currentPage}
           pages={pages} // Display the total number of pages
