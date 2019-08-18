@@ -2,8 +2,8 @@ import React from "react";
 // Import React Table
 import ReactTable from "react-table";
 import "react-table/react-table.css";
-import {columns} from './columns';
-import './table.css';
+import { columns } from "./columns";
+import "./table.css";
 
 export default class App extends React.Component {
   constructor() {
@@ -19,26 +19,30 @@ export default class App extends React.Component {
   /**
    * Fetch from API on component load
    */
-  componentDidMount(){
-    const errorText = 'Loading failed.\nPlease refresh the page to try again';
-    fetch('https://api.github.com/search/repositories?q=language:javascript&sort=stars&order=desc&per_page=100', {mode: 'cors'})
-      .then( response => {
-          response.json().then( data => {
+  componentDidMount() {
+    const errorText = "Loading failed.\nPlease refresh the page to try again";
+    fetch(
+      "https://api.github.com/search/repositories?q=language:javascript&sort=stars&order=desc&per_page=100",
+      { mode: "cors" }
+    )
+      .then(response => {
+        response
+          .json()
+          .then(data => {
             // store entire response in state
-            this.setState({data: data.items});
+            this.setState({ data: data.items });
             // initialize table with api response
             this.handleInteraction(this.refs.table.state, {});
           })
-          .catch( error => {
-            alert(errorText)
+          .catch(error => {
+            alert(errorText);
           });
-        }
-      )
-      .catch( error => {
-        alert(errorText)
       })
-      .finally( () =>{
-        this.setState({loading: false})
+      .catch(error => {
+        alert(errorText);
+      })
+      .finally(() => {
+        this.setState({ loading: false });
       });
   }
   /**
@@ -49,13 +53,13 @@ export default class App extends React.Component {
    * @return {page, pages}     object used to set currentPage, pages in parent
    */
   updatePages(pageSize, page) {
-      const newData = {
-        page: this.state.data.slice(pageSize * page, pageSize * page + pageSize),
-        pages: Math.ceil(this.state.data.length / pageSize)
-      };
-      console.log(newData);
-      return(newData);
-  };
+    const newData = {
+      page: this.state.data.slice(pageSize * page, pageSize * page + pageSize),
+      pages: Math.ceil(this.state.data.length / pageSize)
+    };
+    console.log(newData);
+    return newData;
+  }
   /**
    * Event handler called when pages are need to be updated in table
    * updates state with new page configurations
@@ -63,23 +67,20 @@ export default class App extends React.Component {
    * @param  {[type]} instance unused
    */
   handleInteraction(state, instance) {
-    const newData=this.updatePages(
-      state.pageSize,
-      state.page
-    )
-      this.setState({
-        currentPage: newData.page,
-        pages: newData.pages
+    const newData = this.updatePages(state.pageSize, state.page);
+    this.setState({
+      currentPage: newData.page,
+      pages: newData.pages
     });
   }
 
   render() {
     const { currentPage, pages, loading } = this.state;
     return (
-      <div style={{height: '100%'}}>
+      <div style={{ height: "100%" }}>
         <ReactTable
           columns={columns}
-          ref={'table'}
+          ref={"table"}
           height={300}
           manual // !important! Forces table not to paginate or sort automatically
           data={currentPage}
